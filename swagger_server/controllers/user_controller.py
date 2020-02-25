@@ -1,11 +1,9 @@
+import bcrypt
 import connexion
-import six
 
-from swagger_server.models.error import Error  # noqa: E501
 from swagger_server.models.user import User  # noqa: E501
-from swagger_server import util
-import mysql.connector
-from ..services import hashing
+from ..models.db_models.user import User as dbUser
+from ..__main__ import db
 
 
 # https://dev.mysql.com/doc/connector-python/en/connector-python-api-errors-error.html
@@ -24,27 +22,18 @@ def add_user(body=None):  # noqa: E501
     """
     if connexion.request.is_json:
         body = User.from_dict(connexion.request.get_json())  # noqa: E501
-        # Hash password
-        hashed_password = hashing.get_hashed_password(body.password)
-        # Query
-        query = "INSERT INTO user (user_name, password, display_name) VALUES (%s, %s, %s)"
-        user_details = (body.username, hashed_password, body.display_name)
-        try:
-            cnx = mysql.connector.connect(option_files='config.ini')  # Start Connection
-            cursor = cnx.cursor()
-            cursor.execute(query, user_details)  # Run query
-            cnx.commit()  # Commit
+        existing_user = dbUser.query.filter_by(user_name=body.username).first()
+        if existing_user is None:
+            print(body.password)
+            user = dbUser(user_name=body.username,
+                          password=bcrypt.hashpw(body.password.encode('utf8'), bcrypt.gensalt()),
+                          display_name=body.display_name)
+
+            db.session.add(user)
+            db.session.commit()
             return "New user registered", 201
-        except mysql.connector.Error as error:
-            if error.errno == 1062:
-                return "Sorry that username already exists in the database", 401
-            else:
-                return "Failed to insert into MySQL table: {}".format(error)
-        finally:
-            if cnx.is_connected():
-                cnx.close()
-                cursor.close()
-                print("MySQL connection is closed")
+        else:
+            return "Sorry that username already exists in the database", 401
 
     return 'do some magic!'
 

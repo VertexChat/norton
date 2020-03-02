@@ -7,7 +7,6 @@ from swagger_server import encoder
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import config
-from flask_login import LoginManager
 
 # https://flask-login.readthedocs.io/en/latest/
 db = SQLAlchemy()

@@ -31,7 +31,7 @@ def add_user(body=None):  # noqa: E501
 
             db.session.add(user)
             db.session.commit()
-            return "New user registered", 201
+            return 201
         else:
             return "Sorry that username already exists in the database", 401
 

@@ -1,8 +1,10 @@
 import connexion
+from connexion import NoContent
 
 from swagger_server.models.login import Login  # noqa: E501
 from . import user_controller as user_control
-from ..models.db_models.user import User
+from ..models.db_models.user import User as dbUser
+from ..models.user import User
 
 
 def login(body=None):  # noqa: E501
@@ -20,15 +22,17 @@ def login(body=None):  # noqa: E501
     if connexion.request.is_json:
         body = Login.from_dict(connexion.request.get_json())  # noqa: E501
         if body.user_name and body.password:
-            user = User.query.filter_by(user_name=body.user_name).first()
+            user = dbUser.query.filter_by(user_name=body.user_name).first()
             if user:
                 if user.check_password(password=body.password):
-                    return 'User is authenticated!', 202
+                    userDetails = User(None, user.user_name, None, user.display_name)
+                    return userDetails, 202
                 else:
                     return 'Password incorrect', 401
             else:
                 return 'User does not exist in the database', 401
 
+    # TODO:
     return 'do some magic!'
 
 

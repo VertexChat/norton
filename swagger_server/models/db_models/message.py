@@ -1,12 +1,9 @@
 # coding: utf-8
-from sqlalchemy import Column, Enum, ForeignKey, String, TIMESTAMP, text
+from sqlalchemy import Column, ForeignKey, String, TIMESTAMP, text
 from sqlalchemy.dialects.mysql import INTEGER
 from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
-from swagger_server.__main__ import db
 
-Base = declarative_base()
-metadata = Base.metadata
+from swagger_server.__main__ import db
 
 
 class Message(db.Model):

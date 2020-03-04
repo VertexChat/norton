@@ -2,6 +2,8 @@
 
 import connexion
 from flask_cors import CORS
+from sqlalchemy.exc import SQLAlchemyError
+
 from swagger_server import encoder
 # https://stackoverflow.com/questions/10572498/importerror-no-module-named-sqlalchemy
 from flask import Flask
@@ -14,7 +16,6 @@ db = SQLAlchemy()
 
 # login_manager = LoginManager()
 
-
 def main():
     app = connexion.App(__name__, specification_dir='./swagger/')
     CORS(app.app)  # Added to allow CORS
@@ -24,8 +25,10 @@ def main():
     # Import config
     app.app.config.from_object(config.Config)
     # Init db and login manager
-    db.init_app(app.app)
-    # login_manager.init_app(app)
+    try:
+        db.init_app(app.app)
+    except SQLAlchemyError as e:
+        print(e)
 
     with app.app.app_context():
         # Create tables for our models

@@ -1,5 +1,4 @@
 import connexion
-from connexion import NoContent
 
 from swagger_server.models.login import Login  # noqa: E501
 from . import user_controller as user_control

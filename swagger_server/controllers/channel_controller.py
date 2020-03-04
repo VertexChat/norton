@@ -1,10 +1,10 @@
 import connexion
-import mysql.connector
-import six
+from sqlalchemy.exc import SQLAlchemyError
 
+from swagger_server.models.all_channels import AllChannels  # noqa: E501
 from swagger_server.models.channel import Channel  # noqa: E501
-from swagger_server.models.error import Error  # noqa: E501
-from swagger_server import util
+from ..models.db_models.channel import Channel as dbChannel
+from sqlalchemy.sql import select
 
 
 def add_channel(body=None):  # noqa: E501
@@ -12,7 +12,7 @@ def add_channel(body=None):  # noqa: E501
 
     Channel has been created # noqa: E501
 
-    :param body: The Channel to be created
+    :param body: The Channel to be create
     :type body: dict | bytes
 
     :rtype: None
@@ -35,6 +35,35 @@ def delete_channel_by_id(id):  # noqa: E501
     return 'do some magic!'
 
 
+def get_all_channels():  # noqa: E501
+    """Returns all channels
+
+    Returns all channels in a server # noqa: E501
+
+
+    :rtype: AllChannels
+    """
+    try:
+        # Query DB
+        query = dbChannel.query.all()
+        response = []
+        # Loop through query results and build channel objects for response
+        for channel in query:
+            c = Channel()
+            c.id = channel.channel_id
+            c.name = channel.channel_name
+            c.capacity = channel.channel_capacity
+            c.type = channel.channel_type
+            c.position = channel.channel_position
+            response.append(c)
+        # Return all channels
+        res = AllChannels.from_dict(response)
+        return res, 200
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        return error
+
+
 def get_channel_by_id(id):  # noqa: E501
     """Get a channel by its ID
 
@@ -45,27 +74,6 @@ def get_channel_by_id(id):  # noqa: E501
 
     :rtype: Channel
     """
-    # Query
-    query = "SELECT * FROM channel WHERE channel_name = 'VOICE'"
-
-    try:
-        cnx = mysql.connector.connect(option_files='config.ini')  # Start Connection
-        cursor = cnx.cursor()
-        cursor.execute(query)  # Run query
-
-        result = cursor.fetchall()
-        print(result)
-        return result
-
-    except mysql.connector.Error as error:
-        return "Failed to query database: {}".format(error), 500
-    finally:
-        if cnx.is_connected():
-            cnx.close()
-            cursor.close()
-            print("MySQL connection is closed")
-            
-
     return 'do some magic!'
 
 

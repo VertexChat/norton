@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: Norton API
   description: Backend API server for Vertex's Norton backend
-  version: "0.1"
+  version: 1.0.0
 servers:
 - url: https://localhost/api/v1
   description: Localhost API URL
@@ -151,6 +151,32 @@ paths:
                 $ref: '#/components/schemas/Error'
       x-openapi-router-controller: swagger_server.controllers.user_controller
   /channels:
+    get:
+      tags:
+      - Channel
+      summary: Returns all channels
+      description: Returns all channels in a server
+      operationId: get_all_channels
+      responses:
+        "200":
+          description: Channels have been returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllChannels'
+        "404":
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-openapi-router-controller: swagger_server.controllers.channel_controller
     post:
       tags:
       - Channel
@@ -158,7 +184,7 @@ paths:
       description: Channel has been created
       operationId: add_channel
       requestBody:
-        description: The Channel to be created
+        description: The Channel to be create
         content:
           application/json:
             schema:
@@ -374,8 +400,7 @@ components:
       type: object
       properties:
         id:
-          type: number
-          format: int
+          type: integer
           example: 1
         username:
           type: string
@@ -395,6 +420,10 @@ components:
         displayName: John Doe
         id: 1
         username: JohnD2005
+    AllChannels:
+      type: array
+      items:
+        $ref: '#/components/schemas/Channel'
     Channel:
       required:
       - capacity

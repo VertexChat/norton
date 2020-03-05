@@ -11,6 +11,8 @@ tags:
   description: Operations available for user accounts
 - name: Channel
   description: Operation available for channels
+- name: Message
+  description: Operation available for user messages
 - name: Server
   description: Operation available for server info
 - name: Auth
@@ -310,6 +312,166 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       x-openapi-router-controller: swagger_server.controllers.channel_controller
+  /messages:
+    get:
+      tags:
+      - Message
+      summary: Returns all messages
+      description: Returns all messages in a channel
+      operationId: get_all_messages
+      responses:
+        "200":
+          description: Messages have been returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllMessages'
+        "404":
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-openapi-router-controller: swagger_server.controllers.message_controller
+    post:
+      tags:
+      - Message
+      summary: Message has been created
+      description: Message has been created
+      operationId: add_message
+      requestBody:
+        description: Message to be added
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Message'
+      responses:
+        "201":
+          description: Message has been created
+          headers:
+            Location:
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uri
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-openapi-router-controller: swagger_server.controllers.message_controller
+  /messages/{id}:
+    get:
+      tags:
+      - Message
+      summary: Get a message by its ID
+      description: Returns a single message if it exists
+      operationId: get_message_by_id
+      parameters:
+      - name: id
+        in: path
+        description: The message ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: The message has been found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        "404":
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-openapi-router-controller: swagger_server.controllers.message_controller
+    put:
+      tags:
+      - Message
+      summary: Updates an existing message
+      description: Updates an existing message
+      operationId: update_message_by_id
+      parameters:
+      - name: id
+        in: path
+        description: The message ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      requestBody:
+        description: Message to be added
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Message'
+      responses:
+        "204":
+          description: Message sucessfully updated
+        "404":
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-openapi-router-controller: swagger_server.controllers.message_controller
+    delete:
+      tags:
+      - Message
+      summary: Deletes an existing message
+      description: Deletes an existing message
+      operationId: delete_message_by_id
+      parameters:
+      - name: id
+        in: path
+        description: The message ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "204":
+          description: Message has been deleted
+        "404":
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-openapi-router-controller: swagger_server.controllers.message_controller
   /server:
     get:
       tags:
@@ -431,6 +593,7 @@ components:
       - name
       - position
       - type
+      - user_id
       type: object
       properties:
         id:
@@ -439,6 +602,9 @@ components:
         name:
           type: string
           example: General
+        user_id:
+          type: string
+          example: Hello
         capacity:
           type: integer
           example: 20
@@ -452,11 +618,51 @@ components:
           type: integer
           example: 3
       example:
+        user_id: Hello
         name: General
         id: 1
         position: 3
         type: TEXT_CHANNEL
         capacity: 20
+    AllMessages:
+      type: array
+      items:
+        $ref: '#/components/schemas/Message'
+    Message:
+      required:
+      - channel_id
+      - content
+      - edited_timestamp
+      - id
+      - timestamp
+      - user_id
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 4
+        channel_id:
+          type: integer
+          example: 2
+        user_id:
+          type: integer
+          example: 0
+        content:
+          type: string
+          example: Hello, World!
+        timestamp:
+          type: string
+          example: 16:21 04/03/2020
+        edited_timestamp:
+          type: string
+          example: 17:59 13/03/2020
+      example:
+        user_id: 0
+        id: 4
+        channel_id: 2
+        content: Hello, World!
+        edited_timestamp: 17:59 13/03/2020
+        timestamp: 16:21 04/03/2020
     Server:
       type: object
       properties:

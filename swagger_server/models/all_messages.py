@@ -15,6 +15,7 @@ class AllMessages(Model):
 
     Do not edit the class manually.
     """
+
     def __init__(self):  # noqa: E501
         """AllMessages - a model defined in Swagger
 

@@ -14,7 +14,8 @@ class Login(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, password: str=None, user_name: str=None):  # noqa: E501
+
+    def __init__(self, password: str = None, user_name: str = None):  # noqa: E501
         """Login - a model defined in Swagger
 
         :param password: The password of this Login.  # noqa: E501

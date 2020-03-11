@@ -52,7 +52,7 @@ and open your browser to here:
 http://localhost:8080/ui/
 ```
 
-Your Swagger definition lives here:
+Your Swagger definition lives here
 
 ```
 http://localhost:8080/swagger.json

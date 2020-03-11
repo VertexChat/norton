@@ -14,7 +14,9 @@ class Channel(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, id: int=None, name: str=None, capacity: int=None, type: str=None, position: int=None):  # noqa: E501
+
+    def __init__(self, id: int = None, name: str = None, capacity: int = None, type: str = None,
+                 position: int = None):  # noqa: E501
         """Channel - a model defined in Swagger
 
         :param id: The id of this Channel.  # noqa: E501

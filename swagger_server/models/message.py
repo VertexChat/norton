@@ -14,7 +14,9 @@ class Message(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, id: int=None, channel_id: int=None, user_id: int=None, content: str=None, timestamp: str=None, edited_timestamp: str=None):  # noqa: E501
+
+    def __init__(self, id: int = None, channel_id: int = None, user_id: int = None, content: str = None,
+                 timestamp: str = None, edited_timestamp: str = None):  # noqa: E501
         """Message - a model defined in Swagger
 
         :param id: The id of this Message.  # noqa: E501

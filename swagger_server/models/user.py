@@ -14,7 +14,9 @@ class User(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, id: int=None, username: str=None, password: str=None, display_name: str=None):  # noqa: E501
+
+    def __init__(self, id: int = None, username: str = None, password: str = None,
+                 display_name: str = None):  # noqa: E501
         """User - a model defined in Swagger
 
         :param id: The id of this User.  # noqa: E501

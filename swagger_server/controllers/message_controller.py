@@ -1,10 +1,13 @@
 import connexion
 import six
+from sqlalchemy.exc import SQLAlchemyError
 
 from swagger_server.models.all_messages import AllMessages  # noqa: E501
 from swagger_server.models.error import Error  # noqa: E501
 from swagger_server.models.message import Message  # noqa: E501
 from swagger_server import util
+from ..models.db_models.message import Message as dbMessage
+from sqlalchemy.sql import select
 
 
 def add_message(body=None):  # noqa: E501
@@ -43,7 +46,24 @@ def get_all_messages():  # noqa: E501
 
     :rtype: AllMessages
     """
-    return 'do some magic!'
+
+    try:
+        # Query DB
+        query = dbMessage.query.all()
+        response = []
+        for message in query:
+            m = Message()
+            m.id = message.message_id
+            m.channel_id = message.channel_id
+            m.user_id = message.user_id
+            m.content = message.message_content
+            m.timestamp = message.message_timestamp
+            m.edited_timestamp = message.edited_timestamp
+        res = AllMessages.from_dict(response)
+        return res, 200
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        return error
 
 
 def get_message_by_id(id):  # noqa: E501

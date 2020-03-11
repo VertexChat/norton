@@ -14,7 +14,8 @@ class Server(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, user_count: int=None, app_version: str=None):  # noqa: E501
+
+    def __init__(self, user_count: int = None, app_version: str = None):  # noqa: E501
         """Server - a model defined in Swagger
 
         :param user_count: The user_count of this Server.  # noqa: E501

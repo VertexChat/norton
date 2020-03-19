@@ -3,7 +3,7 @@ import connexion
 
 from swagger_server.models.user import User  # noqa: E501
 from ..models.db_models.user import User as dbUser
-from ..__main__ import db
+from ..__main__ import database
 
 
 # https://dev.mysql.com/doc/connector-python/en/connector-python-api-errors-error.html
@@ -29,8 +29,8 @@ def add_user(body=None):  # noqa: E501
                           password=bcrypt.hashpw(body.password.encode('utf8'), bcrypt.gensalt()),
                           display_name=body.display_name)
 
-            db.session.add(user)
-            db.session.commit()
+            database.session.add(user)
+            database.session.commit()
             return 201
         else:
             return "Sorry that username already exists in the database", 401

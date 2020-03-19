@@ -1,12 +1,15 @@
 import connexion
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy import create_engine
 
 from swagger_server.models.all_channels import AllChannels  # noqa: E501
 from swagger_server.models.channel import Channel  # noqa: E501
 from ..models.db_models.channel import Channel as dbChannel
-from sqlalchemy.sql import select
+
+engine = create_engine('', echo=True)
 
 
+# Add A Channel -- Insert
 def add_channel(body=None):  # noqa: E501
     """Channel has been created
 
@@ -17,9 +20,24 @@ def add_channel(body=None):  # noqa: E501
 
     :rtype: None
     """
-    if connexion.request.is_json:
-        body = Channel.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+    try:
+        # Insert into db
+        # Query set up
+        ins = dbChannel.user.insert().values()
+        ins.compile().params  # peak at data
+
+        # Connect to db
+        conn = engine.connect()
+
+
+        return 200
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        return error
+
+    # if connexion.request.is_json:
+    #     body = Channel.from_dict(connexion.request.get_json())  # noqa: E501
+    # return 'do some magic!'
 
 
 def delete_channel_by_id(id):  # noqa: E501
@@ -56,8 +74,10 @@ def get_all_channels():  # noqa: E501
             c.type = channel.channel_type
             c.position = channel.channel_position
             response.append(c)
+
         # Return all channels
         res = AllChannels.from_dict(response)
+
         return res, 200
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])

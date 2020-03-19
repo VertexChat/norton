@@ -2,9 +2,10 @@ import connexion
 
 from swagger_server.models.login import Login  # noqa: E501
 from . import user_controller as user_control
-from ..models.db_models.user import User as dbUser
-from ..models.user import User
+from ..models.db_models.user import User as dbUser  # database
+from ..models.user import User  # user
 
+# Our own created authorisation  -- refer to this one
 
 def login(body=None):  # noqa: E501
 

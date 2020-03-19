@@ -59,7 +59,10 @@ def get_all_messages():  # noqa: E501
             m.content = message.message_content
             m.timestamp = message.message_timestamp
             m.edited_timestamp = message.edited_timestamp
+            response.append(m)
+
         res = AllMessages.from_dict(response)
+
         return res, 200
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])

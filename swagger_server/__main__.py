@@ -24,6 +24,7 @@ database = SQLAlchemy()  # Database connection
 
 
 def main():
+    """Note: pythonic_params (line 33) is used for... """
     connexion_app = connexion.App(__name__, specification_dir='./swagger/')  # Get a handle on the connexion app
     CORS(connexion_app.app)  # Added to allow CORS
     connexion_app.app.json_encoder = encoder.JSONEncoder  # Get a handle on the encoder type ==> JSON

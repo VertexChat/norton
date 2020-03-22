@@ -17,6 +17,7 @@ from swagger_server import encoder
 from flask_sqlalchemy import SQLAlchemy
 
 # https://flask-login.readthedocs.io/en/latest/
+# https://flask-sqlalchemy.palletsprojects.com/en/2.x/api/
 database = SQLAlchemy()  # Database connection
 
 

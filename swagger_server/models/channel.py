@@ -14,7 +14,7 @@ class Channel(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, id: int=None, name: str=None, user_id: str=None, capacity: int=None, type: str=None, position: int=None):  # noqa: E501
+    def __init__(self, id: int=None, name: str=None, user_id: int=None, capacity: int=None, type: str=None, position: int=None):  # noqa: E501
         """Channel - a model defined in Swagger
 
         :param id: The id of this Channel.  # noqa: E501
@@ -22,7 +22,7 @@ class Channel(Model):
         :param name: The name of this Channel.  # noqa: E501
         :type name: str
         :param user_id: The user_id of this Channel.  # noqa: E501
-        :type user_id: str
+        :type user_id: int
         :param capacity: The capacity of this Channel.  # noqa: E501
         :type capacity: int
         :param type: The type of this Channel.  # noqa: E501
@@ -33,7 +33,7 @@ class Channel(Model):
         self.swagger_types = {
             'id': int,
             'name': str,
-            'user_id': str,
+            'user_id': int,
             'capacity': int,
             'type': str,
             'position': int
@@ -112,22 +112,22 @@ class Channel(Model):
         self._name = name
 
     @property
-    def user_id(self) -> str:
+    def user_id(self) -> int:
         """Gets the user_id of this Channel.
 
 
         :return: The user_id of this Channel.
-        :rtype: str
+        :rtype: int
         """
         return self._user_id
 
     @user_id.setter
-    def user_id(self, user_id: str):
+    def user_id(self, user_id: int):
         """Sets the user_id of this Channel.
 
 
         :param user_id: The user_id of this Channel.
-        :type user_id: str
+        :type user_id: int
         """
         if user_id is None:
             raise ValueError("Invalid value for `user_id`, must not be `None`")  # noqa: E501

@@ -4,6 +4,8 @@ info:
   description: Backend API server for Vertex's Norton backend
   version: 1.0.0
 servers:
+- url: https://virtserver.swaggerhub.com/butlawr/norton/1.0.0
+  description: SwaggerHub API Auto Mocking
 - url: https://localhost/api/v1
   description: Localhost API URL
 tags:
@@ -603,8 +605,8 @@ components:
           type: string
           example: General
         user_id:
-          type: string
-          example: Hello
+          type: integer
+          example: 3
         capacity:
           type: integer
           example: 20
@@ -618,7 +620,7 @@ components:
           type: integer
           example: 3
       example:
-        user_id: Hello
+        user_id: 3
         name: General
         id: 1
         position: 3

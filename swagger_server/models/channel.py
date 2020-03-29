@@ -14,13 +14,15 @@ class Channel(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, id: int=None, name: str=None, capacity: int=None, type: str=None, position: int=None):  # noqa: E501
+    def __init__(self, id: int=None, name: str=None, user_id: str=None, capacity: int=None, type: str=None, position: int=None):  # noqa: E501
         """Channel - a model defined in Swagger
 
         :param id: The id of this Channel.  # noqa: E501
         :type id: int
         :param name: The name of this Channel.  # noqa: E501
         :type name: str
+        :param user_id: The user_id of this Channel.  # noqa: E501
+        :type user_id: str
         :param capacity: The capacity of this Channel.  # noqa: E501
         :type capacity: int
         :param type: The type of this Channel.  # noqa: E501
@@ -31,6 +33,7 @@ class Channel(Model):
         self.swagger_types = {
             'id': int,
             'name': str,
+            'user_id': str,
             'capacity': int,
             'type': str,
             'position': int
@@ -39,12 +42,14 @@ class Channel(Model):
         self.attribute_map = {
             'id': 'id',
             'name': 'name',
+            'user_id': 'user_id',
             'capacity': 'capacity',
             'type': 'type',
             'position': 'position'
         }
         self._id = id
         self._name = name
+        self._user_id = user_id
         self._capacity = capacity
         self._type = type
         self._position = position
@@ -105,6 +110,29 @@ class Channel(Model):
             raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
         self._name = name
+
+    @property
+    def user_id(self) -> str:
+        """Gets the user_id of this Channel.
+
+
+        :return: The user_id of this Channel.
+        :rtype: str
+        """
+        return self._user_id
+
+    @user_id.setter
+    def user_id(self, user_id: str):
+        """Sets the user_id of this Channel.
+
+
+        :param user_id: The user_id of this Channel.
+        :type user_id: str
+        """
+        if user_id is None:
+            raise ValueError("Invalid value for `user_id`, must not be `None`")  # noqa: E501
+
+        self._user_id = user_id
 
     @property
     def capacity(self) -> int:

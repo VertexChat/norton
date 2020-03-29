@@ -1,6 +1,8 @@
-# coding: utf-8
+"""
+__init__.py
 
-# flake8: noqa
+Inititalisator class: handles global imports
+"""
 from __future__ import absolute_import
 # import models into model package
 from swagger_server.models.channel import Channel

@@ -46,7 +46,7 @@ def main():
         database.create_all()
 
     # Run application
-    connexion_app.run(port=8080)
+    connexion_app.run(port=8081)
 
 
 if __name__ == '__main__':

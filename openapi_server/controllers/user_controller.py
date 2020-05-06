@@ -7,14 +7,14 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from openapi_server.__main__ import db
 from openapi_server.models import db_models
-from openapi_server.models.user import User  # noqa: E501
+from openapi_server.models.user import User
 from openapi_server.util import ErrorResponse
 
 
-def create_user(user):  # noqa: E501
+def create_user(user):
     """Create a User
 
-    Creates a new instance of a User. # noqa: E501
+    Creates a new instance of a User.
 
     :param user: A new User to be created.
     :type user: dict | bytes
@@ -40,13 +40,13 @@ def create_user(user):  # noqa: E501
             return ErrorResponse(500, 'Internal Server Error')
 
 
-def delete_user(user_id):  # noqa: E501
+def delete_user(user_id):
     """Delete a User
 
-    Deletes an existing User. # noqa: E501
+    Deletes an existing User.
 
     :param user_id: A unique identifier for a User.
-    :type user_id: str
+    :type user_id: int
 
     :rtype: None
     """
@@ -60,13 +60,13 @@ def delete_user(user_id):  # noqa: E501
         return Response(status=204, mimetype="application/json")
 
 
-def get_user(user_id):  # noqa: E501
+def get_user(user_id):
     """Get a User
 
-    Gets the details of a single instance of a User. # noqa: E501
+    Gets the details of a single instance of a User.
 
     :param user_id: A unique identifier for a User.
-    :type user_id: str
+    :type user_id: int
 
     :rtype: User
     """
@@ -77,10 +77,10 @@ def get_user(user_id):  # noqa: E501
     return Response(response=json.dumps(User(id=user.id, name=user.name).to_dict()), status=200, mimetype="application/json")
 
 
-def get_users():  # noqa: E501
+def get_users():
     """List All users
 
-    Gets a list of all User entities. # noqa: E501
+    Gets a list of all User entities.
 
 
     :rtype: List[User]
@@ -96,13 +96,13 @@ def get_users():  # noqa: E501
         return ErrorResponse(500, 'Unable to fetch Users')
 
 
-def update_user(user_id, user=None):  # noqa: E501
+def update_user(user_id, user=None):
     """Update a User
 
-    Updates an existing User. # noqa: E501
+    Updates an existing User.
 
     :param user_id: A unique identifier for a User.
-    :type user_id: str
+    :type user_id: int
     :param user: Updated User information.
     :type user: dict | bytes
 
@@ -114,7 +114,7 @@ def update_user(user_id, user=None):  # noqa: E501
         if user is None:
             return ErrorResponse(404, 'User not found')
         else:
-            u = User.from_dict(connexion.request.get_json())  # noqa: E501
+            u = User.from_dict(connexion.request.get_json())
 
             try:
                 print(u)

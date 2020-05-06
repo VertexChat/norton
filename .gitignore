@@ -9,12 +9,6 @@ __pycache__/
 # C extensions
 *.so
 
-# Added
-config.ini
-git_push.sh
-.swagger-codegen-ignore
-.swagger-codegen
-
 # Distribution / packaging
 .Python
 env/
@@ -54,7 +48,9 @@ coverage.xml
 *,cover
 .hypothesis/
 venv/
+.venv/
 .python-version
+.pytest_cache
 
 # Translations
 *.mo

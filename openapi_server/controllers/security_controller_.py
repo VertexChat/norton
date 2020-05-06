@@ -15,5 +15,3 @@ def info_from_LoginRequired(api_key, required_scopes):
     :rtype: dict | None
     """
     return {'uid': 'user_id'}
-
-

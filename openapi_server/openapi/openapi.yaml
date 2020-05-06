@@ -22,6 +22,7 @@ paths:
                                 type: array
                                 items:
                                     $ref: '#/components/schemas/Channel'
+
                     description: Successful response - returns an array of Channel entities.
                 '500':
                     content:
@@ -29,11 +30,11 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
                             examples:
-                                ChannelNotFound:
+                                InternalServerError:
                                     value:
                                         code: 500
-                                        messages: Unable to create user
-                    description: Unable to create user
+                                        messages: Unable to retrieve channels
+                    description: Unable to retrieve channels
             security:
                 -
                     LoginRequired: []
@@ -60,11 +61,11 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
                             examples:
-                                ChannelNotFound:
+                                InternalServerError:
                                     value:
                                         code: 500
-                                        messages: Unable to create user
-                    description: Unable to create user
+                                        messages: Unable to create a new channel
+                    description: Unable to create a new channel
             security:
                 -
                     LoginRequired: []
@@ -88,7 +89,7 @@ paths:
                     name: channelId
                     description: A unique identifier for a Channel.
                     schema:
-                        type: string
+                        type: integer
                     in: path
                     required: true
             responses:
@@ -115,11 +116,11 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
                             examples:
-                                ChannelNotFound:
+                               InternalServerError:
                                     value:
                                         code: 500
-                                        messages: Unable to create user
-                    description: Unable to create user
+                                        messages: Unable to process request
+                    description: Unable to process request
             security:
                 -
                     LoginRequired: []
@@ -144,7 +145,7 @@ paths:
                     name: channelId
                     description: A unique identifier for a Channel.
                     schema:
-                        type: string
+                        type: integer
                     in: path
                     required: true
             responses:
@@ -167,11 +168,11 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
                             examples:
-                                ChannelNotFound:
+                               InternalServerError:
                                     value:
                                         code: 500
-                                        messages: Unable to create user
-                    description: Unable to create user
+                                        messages: Unable to process request
+                    description: Unable to process request
             security:
                 -
                     LoginRequired: []
@@ -189,7 +190,7 @@ paths:
                     name: channelId
                     description: A unique identifier for a Channel.
                     schema:
-                        type: string
+                        type: integer
                     in: path
                     required: true
             responses:
@@ -212,11 +213,11 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
                             examples:
-                                ChannelNotFound:
+                               InternalServerError:
                                     value:
                                         code: 500
-                                        messages: Unable to create user
-                    description: Unable to create user
+                                        messages: Unable to process request
+                    description: Unable to process request
             security:
                 -
                     LoginRequired: []
@@ -273,11 +274,11 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
                             examples:
-                                ChannelNotFound:
+                                InternalServerError:
                                     value:
                                         code: 500
-                                        messages: Unable to create user
-                    description: Unable to create user
+                                        messages: Unable to process request
+                    description: Unable to process request
             security:
                 -
                     LoginRequired: []
@@ -305,7 +306,7 @@ paths:
                     required: true
             responses:
                 '201':
-                    description: User has been created
+                    description: User has added to channel members
                 '404':
                     content:
                         application/json:
@@ -323,11 +324,11 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
                             examples:
-                                ChannelNotFound:
+                                InternalServerError:
                                     value:
                                         code: 500
-                                        messages: Unable to create user
-                    description: Unable to create user
+                                        messages: Unable to process request
+                    description: Unable to process request
             operationId: add_user_to_channel
             x-openapi-router-controller: openapi_server.controllers.channel_controller
     '/channels/{channelId}/members/{userId}':
@@ -370,11 +371,11 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
                             examples:
-                                ChannelNotFound:
+                                InternalServerError:
                                     value:
                                         code: 500
-                                        messages: Unable to create user
-                    description: Unable to create user
+                                        messages: Unable to process request
+                    description: Unable to process request
             security:
                 -
                     LoginRequired: []
@@ -425,11 +426,11 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
                             examples:
-                                ChannelNotFound:
+                                InternalServerError:
                                     value:
                                         code: 500
-                                        messages: Unable to create user
-                    description: Unable to create user
+                                        messages: Unable to process request
+                    description: Unable to process request
             security:
                 -
                     LoginRequired: []
@@ -476,11 +477,11 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
                             examples:
-                                ChannelNotFound:
+                                InternalServerError:
                                     value:
                                         code: 500
-                                        messages: Unable to create user
-                    description: Unable to create user
+                                        messages: Unable to process request
+                    description: Unable to process request
             security:
                 -
                     LoginRequired: []
@@ -504,7 +505,7 @@ paths:
                     name: channelId
                     description: A unique identifier for a Message.
                     schema:
-                        type: string
+                        type: integer
                     in: path
                     required: true
                 -
@@ -543,11 +544,11 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
                             examples:
-                                ChannelNotFound:
+                                InternalServerError:
                                     value:
                                         code: 500
-                                        messages: Unable to create user
-                    description: Unable to create user
+                                        messages: Unable to process request
+                    description: Unable to process request
             security:
                 -
                     LoginRequired: []
@@ -572,7 +573,7 @@ paths:
                     name: channelId
                     description: A unique identifier for a Message.
                     schema:
-                        type: string
+                        type: integer
                     in: path
                     required: true
                 -
@@ -592,11 +593,11 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
                             examples:
-                                ChannelNotFound:
-                                    value:
-                                        code: 500
-                                        messages: Unable to create user
-                    description: Unable to create user
+                              InternalServerError:
+                                   value:
+                                      code: 500
+                                      messages: Unable to process request
+                    description: Unable to process request
             security:
                 -
                     LoginRequired: []
@@ -614,7 +615,7 @@ paths:
                     name: channelId
                     description: A unique identifier for a Message.
                     schema:
-                        type: string
+                        type: integer
                     in: path
                     required: true
                 -
@@ -634,11 +635,12 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
                             examples:
-                                ChannelNotFound:
+                                InternalServerError:
                                     value:
                                         code: 500
-                                        messages: Unable to create user
-                    description: Unable to create user
+                                        messages: Unable to process request
+
+                    description: Unable to process request
             security:
                 -
                     LoginRequired: []
@@ -690,11 +692,11 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
                             examples:
-                                ChannelNotFound:
+                                InternalServerError:
                                     value:
                                         code: 500
-                                        messages: Unable to create user
-                    description: Unable to create user
+                                        messages: Unable to process request
+                    description: Unable to process request
             security:
                 - {}
             operationId: login
@@ -705,7 +707,7 @@ paths:
         summary: Path used to register a new User
         post:
             requestBody:
-                $ref: '#/components/requestBodies/inline_object_1'
+                $ref: '#/components/requestBodies/inline_object'
                 content:
                     application/json:
                         schema:
@@ -753,11 +755,11 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
                             examples:
-                                ChannelNotFound:
+                                InternalServerError:
                                     value:
                                         code: 500
-                                        messages: Unable to create user
-                    description: Unable to create user
+                                        messages: Unable to process request
+                    description: Unable to process request
             security:
                 - {}
             operationId: register
@@ -787,11 +789,11 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
                             examples:
-                                ChannelNotFound:
+                                InternalServerError:
                                     value:
                                         code: 500
-                                        messages: Unable to create user
-                    description: Unable to create user
+                                        messages: Unable to process request
+                    description: Unable to process request
             security:
                 -
                     LoginRequired: []
@@ -818,11 +820,11 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
                             examples:
-                                ChannelNotFound:
+                                InternalServerError:
                                     value:
                                         code: 500
-                                        messages: Unable to create user
-                    description: Unable to create user
+                                        messages: Unable to process request
+                    description: Unable to process request
             security:
                 - {}
             operationId: create_user
@@ -845,7 +847,7 @@ paths:
                     name: userId
                     description: A unique identifier for a User.
                     schema:
-                        type: string
+                        type: integer
                     in: path
                     required: true
             responses:
@@ -861,11 +863,11 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
                             examples:
-                                ChannelNotFound:
+                                InternalServerError:
                                     value:
                                         code: 500
-                                        messages: Unable to create user
-                    description: Unable to create user
+                                        messages: Unable to process request
+                    description: Unable to process request
             security:
                 -
                     LoginRequired: []
@@ -890,7 +892,7 @@ paths:
                     name: userId
                     description: A unique identifier for a User.
                     schema:
-                        type: string
+                        type: integer
                     in: path
                     required: true
             responses:
@@ -902,11 +904,11 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
                             examples:
-                                ChannelNotFound:
+                                InternalServerError:
                                     value:
                                         code: 500
-                                        messages: Unable to create user
-                    description: Unable to create user
+                                        messages: Unable to process request
+                    description: Unable to process request
             operationId: update_user
             summary: Update a User
             description: Updates an existing User.
@@ -921,7 +923,7 @@ paths:
                     name: userId
                     description: A unique identifier for a User.
                     schema:
-                        type: string
+                        type: integer
                     in: path
                     required: true
             responses:
@@ -933,11 +935,11 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
                             examples:
-                                ChannelNotFound:
+                                InternalServerError:
                                     value:
                                         code: 500
-                                        messages: Unable to create user
-                    description: Unable to create user
+                                        messages: Unable to process request
+                    description: Unable to process request
             operationId: delete_user
             summary: Delete a User
             description: Deletes an existing User.
@@ -946,7 +948,6 @@ components:
     schemas:
         Channel:
             required:
-                - id
                 - name
                 - type
             type: object
@@ -976,13 +977,10 @@ components:
                     type: string
             example:
                 id: 0
-                name: name
+                name: Bob
         Message:
             required:
-                - author
-                - channel
                 - content
-                - timestamp
             type: object
             properties:
                 id:
@@ -996,10 +994,10 @@ components:
                 timestamp:
                     type: integer
             example:
-                author: author
-                channel: channel
-                id: 0
-                content: content
+                author: 102
+                channel: 110
+                id: 101
+                content: What time is the meeting
                 timestamp: 6
         Error:
             required:
@@ -1014,14 +1012,7 @@ components:
         inline_object:
             type: object
             properties:
-                name:
-                    type: string
-                password:
-                    type: string
-        inline_object_1:
-            type: object
-            properties:
-                name:
+                username:
                     type: string
                 password:
                     type: string
@@ -1046,15 +1037,9 @@ components:
                         ChannelNotFound:
                             value:
                                 code: 500
-                                messages: Unable to create user
+                                messages: Unable to process request
             description: Unable to create user
     requestBodies:
-        inline_object_1:
-            content:
-                application/json:
-                    schema:
-                        $ref: '#/components/schemas/inline_object_1'
-            required: true
         inline_object:
             content:
                 application/json:

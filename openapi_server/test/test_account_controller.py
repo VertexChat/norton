@@ -8,7 +8,6 @@ from six import BytesIO
 
 from openapi_server.models.error import Error  # noqa: E501
 from openapi_server.models.inline_object import InlineObject  # noqa: E501
-from openapi_server.models.inline_object1 import InlineObject1  # noqa: E501
 from openapi_server.test import BaseTestCase
 
 
@@ -26,7 +25,7 @@ class TestAccountController(BaseTestCase):
             'Content-Type': 'application/json',
         }
         response = self.client.open(
-            '/login',
+            '/api/v1/login',
             method='POST',
             headers=headers,
             data=json.dumps(inline_object),
@@ -39,16 +38,16 @@ class TestAccountController(BaseTestCase):
 
         Registers User
         """
-        inline_object1 = {}
-        headers = { 
+        inline_object = {}
+        headers = {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
         }
         response = self.client.open(
-            '/register',
+            '/api/v1/register',
             method='POST',
             headers=headers,
-            data=json.dumps(inline_object1),
+            data=json.dumps(inline_object),
             content_type='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))

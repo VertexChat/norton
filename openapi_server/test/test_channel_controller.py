@@ -23,14 +23,14 @@ class TestChannelController(BaseTestCase):
         """
         user = {
   "id" : 0,
-  "username" : "username"
+  "name" : "Bob"
 }
         headers = { 
             'Accept': 'application/json',
             'Content-Type': 'application/json',
         }
         response = self.client.open(
-            '/channels/{channel_id}/members'.format(channel_id=56),
+            '/api/v1/channels/{channel_id}/members'.format(channel_id=56),
             method='POST',
             headers=headers,
             data=json.dumps(user),
@@ -54,7 +54,7 @@ class TestChannelController(BaseTestCase):
             'LoginRequired': 'special-key',
         }
         response = self.client.open(
-            '/channels',
+            '/api/v1/channels',
             method='POST',
             headers=headers,
             data=json.dumps(channel),
@@ -68,10 +68,10 @@ class TestChannelController(BaseTestCase):
         Create a Message
         """
         message = {
-  "author" : "author",
-  "channel" : "channel",
-  "id" : 0,
-  "content" : "content",
+  "author" : 102,
+  "channel" : 110,
+  "id" : 101,
+  "content" : "What time is the meeting",
   "timestamp" : 6
 }
         headers = { 
@@ -80,7 +80,7 @@ class TestChannelController(BaseTestCase):
             'LoginRequired': 'special-key',
         }
         response = self.client.open(
-            '/channels/{channel_id}/messages'.format(channel_id=56),
+            '/api/v1/channels/{channel_id}/messages'.format(channel_id=56),
             method='POST',
             headers=headers,
             data=json.dumps(message),
@@ -98,7 +98,7 @@ class TestChannelController(BaseTestCase):
             'LoginRequired': 'special-key',
         }
         response = self.client.open(
-            '/channels/{channel_id}'.format(channel_id='channel_id_example'),
+            '/api/v1/channels/{channel_id}'.format(channel_id=56),
             method='DELETE',
             headers=headers)
         self.assert200(response,
@@ -114,7 +114,7 @@ class TestChannelController(BaseTestCase):
             'LoginRequired': 'special-key',
         }
         response = self.client.open(
-            '/channels/{channel_id}/messages/{message_id}'.format(channel_id='channel_id_example', message_id=56),
+            '/api/v1/channels/{channel_id}/messages/{message_id}'.format(channel_id=56, message_id=56),
             method='DELETE',
             headers=headers)
         self.assert200(response,
@@ -130,7 +130,7 @@ class TestChannelController(BaseTestCase):
             'LoginRequired': 'special-key',
         }
         response = self.client.open(
-            '/channels/{channel_id}'.format(channel_id='channel_id_example'),
+            '/api/v1/channels/{channel_id}'.format(channel_id=56),
             method='GET',
             headers=headers)
         self.assert200(response,
@@ -146,7 +146,7 @@ class TestChannelController(BaseTestCase):
             'LoginRequired': 'special-key',
         }
         response = self.client.open(
-            '/channels/{channel_id}/members'.format(channel_id=56),
+            '/api/v1/channels/{channel_id}/members'.format(channel_id=56),
             method='GET',
             headers=headers)
         self.assert200(response,
@@ -162,7 +162,7 @@ class TestChannelController(BaseTestCase):
             'LoginRequired': 'special-key',
         }
         response = self.client.open(
-            '/channels',
+            '/api/v1/channels',
             method='GET',
             headers=headers)
         self.assert200(response,
@@ -178,7 +178,7 @@ class TestChannelController(BaseTestCase):
             'LoginRequired': 'special-key',
         }
         response = self.client.open(
-            '/channels/{channel_id}/messages/{message_id}'.format(channel_id='channel_id_example', message_id=56),
+            '/api/v1/channels/{channel_id}/messages/{message_id}'.format(channel_id=56, message_id=56),
             method='GET',
             headers=headers)
         self.assert200(response,
@@ -194,7 +194,7 @@ class TestChannelController(BaseTestCase):
             'LoginRequired': 'special-key',
         }
         response = self.client.open(
-            '/channels/{channel_id}/messages'.format(channel_id=56),
+            '/api/v1/channels/{channel_id}/messages'.format(channel_id=56),
             method='GET',
             headers=headers)
         self.assert200(response,
@@ -210,7 +210,7 @@ class TestChannelController(BaseTestCase):
             'LoginRequired': 'special-key',
         }
         response = self.client.open(
-            '/channels/{channel_id}/members/{user_id}'.format(channel_id=56, user_id=56),
+            '/api/v1/channels/{channel_id}/members/{user_id}'.format(channel_id=56, user_id=56),
             method='DELETE',
             headers=headers)
         self.assert200(response,
@@ -232,7 +232,7 @@ class TestChannelController(BaseTestCase):
             'LoginRequired': 'special-key',
         }
         response = self.client.open(
-            '/channels/{channel_id}'.format(channel_id='channel_id_example'),
+            '/api/v1/channels/{channel_id}'.format(channel_id=56),
             method='PUT',
             headers=headers,
             data=json.dumps(channel),
@@ -246,10 +246,10 @@ class TestChannelController(BaseTestCase):
         Update a Message
         """
         message = {
-  "author" : "author",
-  "channel" : "channel",
-  "id" : 0,
-  "content" : "content",
+  "author" : 102,
+  "channel" : 110,
+  "id" : 101,
+  "content" : "What time is the meeting",
   "timestamp" : 6
 }
         headers = { 
@@ -258,7 +258,7 @@ class TestChannelController(BaseTestCase):
             'LoginRequired': 'special-key',
         }
         response = self.client.open(
-            '/channels/{channel_id}/messages/{message_id}'.format(channel_id='channel_id_example', message_id=56),
+            '/api/v1/channels/{channel_id}/messages/{message_id}'.format(channel_id=56, message_id=56),
             method='PUT',
             headers=headers,
             data=json.dumps(message),

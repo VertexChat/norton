@@ -1,0 +1,1054 @@
+openapi: 3.0.2
+info:
+    title: Norton
+    version: 1.0.0
+servers:
+    -
+        url: /api/v1
+paths:
+    /channels:
+        summary: Path used to manage the list of channels.
+        description: >-
+            The REST endpoint/path used to list and create zero or more Channel entities.  This path contains
+            a GET and POST operation to perform the list and create tasks, respectively.
+        get:
+            tags:
+                - Channel
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Channel'
+
+                    description: Successful response - returns an array of Channel entities.
+                '500':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                InternalServerError:
+                                    value:
+                                        code: 500
+                                        messages: Unable to retrieve channels
+                    description: Unable to retrieve channels
+            security:
+                -
+                    LoginRequired: []
+            operationId: get_channels
+            summary: List All channels
+            description: Gets a list of all Channel entities.
+            x-openapi-router-controller: openapi_server.controllers.channel_controller
+        post:
+            requestBody:
+                description: A new Channel to be created.
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Channel'
+                required: true
+            tags:
+                - Channel
+            responses:
+                '201':
+                    description: Successful response.
+                '500':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                InternalServerError:
+                                    value:
+                                        code: 500
+                                        messages: Unable to create a new channel
+                    description: Unable to create a new channel
+            security:
+                -
+                    LoginRequired: []
+            operationId: create_channel
+            summary: Create a Channel
+            description: Creates a new instance of a Channel.
+            x-openapi-router-controller: openapi_server.controllers.channel_controller
+    '/channels/{channelId}':
+        summary: Path used to manage a single Channel.
+        description: >-
+            The REST endpoint/path used to get, update, and delete single instances of an Channel.  This path
+            contains GET, PUT, and DELETE operations used to perform the get, update, and delete tasks,
+            respectively.
+        get:
+            tags:
+                - Channel
+            parameters:
+                -
+                    style: simple
+                    explode: false
+                    name: channelId
+                    description: A unique identifier for a Channel.
+                    schema:
+                        type: integer
+                    in: path
+                    required: true
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Channel'
+                    description: Successful response - returns a single Channel.
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                ChannelNotFound:
+                                    value:
+                                        code: 404
+                                        messages: Channel not found
+                    description: Could not locate Channel
+                '500':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                               InternalServerError:
+                                    value:
+                                        code: 500
+                                        messages: Unable to process request
+                    description: Unable to process request
+            security:
+                -
+                    LoginRequired: []
+            operationId: get_channel
+            summary: Get a Channel
+            description: Gets the details of a single instance of a Channel.
+            x-openapi-router-controller: openapi_server.controllers.channel_controller
+        put:
+            requestBody:
+                description: Updated Channel information.
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Channel'
+                required: true
+            tags:
+                - Channel
+            parameters:
+                -
+                    style: simple
+                    explode: false
+                    name: channelId
+                    description: A unique identifier for a Channel.
+                    schema:
+                        type: integer
+                    in: path
+                    required: true
+            responses:
+                '204':
+                    description: Channel has been updated.
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                ChannelNotFound:
+                                    value:
+                                        code: 404
+                                        messages: Channel not found
+                    description: Could not locate Channel
+                '500':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                               InternalServerError:
+                                    value:
+                                        code: 500
+                                        messages: Unable to process request
+                    description: Unable to process request
+            security:
+                -
+                    LoginRequired: []
+            operationId: update_channel
+            summary: Update a Channel
+            description: Updates an existing Channel.
+            x-openapi-router-controller: openapi_server.controllers.channel_controller
+        delete:
+            tags:
+                - Channel
+            parameters:
+                -
+                    style: simple
+                    explode: false
+                    name: channelId
+                    description: A unique identifier for a Channel.
+                    schema:
+                        type: integer
+                    in: path
+                    required: true
+            responses:
+                '204':
+                    description: Successful response.
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                ChannelNotFound:
+                                    value:
+                                        code: 404
+                                        messages: Channel not found
+                    description: Could not locate Channel
+                '500':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                               InternalServerError:
+                                    value:
+                                        code: 500
+                                        messages: Unable to process request
+                    description: Unable to process request
+            security:
+                -
+                    LoginRequired: []
+            operationId: delete_channel
+            summary: Delete a Channel
+            description: Deletes an existing Channel.
+            x-openapi-router-controller: openapi_server.controllers.channel_controller
+    '/channels/{channelId}/members':
+        summary: Path used to manage the all Users in a Channel
+        get:
+            tags:
+                - Channel
+            parameters:
+                -
+                    style: simple
+                    explode: false
+                    name: channelId
+                    schema:
+                        type: integer
+                    in: path
+                    required: true
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/User'
+                            examples:
+                                SampleUsers:
+                                    value:
+                                        -
+                                            id: 1
+                                            username: David
+                                        -
+                                            id: 2
+                                            username: Morgan
+                    description: Returns a list of Users for the specified Channel
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                ChannelNotFound:
+                                    value:
+                                        code: 404
+                                        messages: Channel not found
+                    description: Could not locate Channel
+                '500':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                InternalServerError:
+                                    value:
+                                        code: 500
+                                        messages: Unable to process request
+                    description: Unable to process request
+            security:
+                -
+                    LoginRequired: []
+            operationId: get_channel_members
+            summary: List All members
+            description: Gets a list of all Users in a given Channel.
+            x-openapi-router-controller: openapi_server.controllers.channel_controller
+        post:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/User'
+                required: true
+            tags:
+                - Channel
+            parameters:
+                -
+                    style: simple
+                    explode: false
+                    name: channelId
+                    schema:
+                        type: integer
+                    in: path
+                    required: true
+            responses:
+                '201':
+                    description: User has added to channel members
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                ChannelNotFound:
+                                    value:
+                                        code: 404
+                                        messages: Channel not found
+                    description: Could not locate Channel
+                '500':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                InternalServerError:
+                                    value:
+                                        code: 500
+                                        messages: Unable to process request
+                    description: Unable to process request
+            operationId: add_user_to_channel
+            x-openapi-router-controller: openapi_server.controllers.channel_controller
+    '/channels/{channelId}/members/{userId}':
+        summary: Path used to manage the indidual Users in a Channel
+        delete:
+            tags:
+                - Channel
+            parameters:
+                -
+                    style: simple
+                    explode: false
+                    name: channelId
+                    schema:
+                        type: integer
+                    in: path
+                    required: true
+                -
+                    style: simple
+                    explode: false
+                    name: userId
+                    schema:
+                        type: integer
+                    in: path
+                    required: true
+            responses:
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                ChannelNotFound:
+                                    value:
+                                        code: 404
+                                        messages: Channel not found
+                    description: Could not locate Channel
+                '500':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                InternalServerError:
+                                    value:
+                                        code: 500
+                                        messages: Unable to process request
+                    description: Unable to process request
+            security:
+                -
+                    LoginRequired: []
+            operationId: remove_channel_member
+            summary: Remove as User
+            description: Removes a User for a Channel
+            x-openapi-router-controller: openapi_server.controllers.channel_controller
+    '/channels/{channelId}/messages':
+        summary: Path used to manage the list of messages.
+        description: >-
+            The REST endpoint/path used to list and create zero or more Message entities.  This path contains
+            a GET and POST operation to perform the list and create tasks, respectively.
+        get:
+            tags:
+                - Channel
+            parameters:
+                -
+                    style: simple
+                    explode: false
+                    name: channelId
+                    schema:
+                        type: integer
+                    in: path
+                    required: true
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Message'
+                    description: Successful response - returns an array of Message entities.
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                ChannelNotFound:
+                                    value:
+                                        code: 404
+                                        messages: Channel not found
+                    description: Could not locate Channel
+                '500':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                InternalServerError:
+                                    value:
+                                        code: 500
+                                        messages: Unable to process request
+                    description: Unable to process request
+            security:
+                -
+                    LoginRequired: []
+            operationId: get_messages
+            summary: List All messages
+            description: Gets a list of all Message entities.
+            x-openapi-router-controller: openapi_server.controllers.channel_controller
+        post:
+            requestBody:
+                description: A new Message to be created.
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Message'
+                required: true
+            tags:
+                - Channel
+            parameters:
+                -
+                    style: simple
+                    explode: false
+                    name: channelId
+                    schema:
+                        type: integer
+                    in: path
+                    required: true
+            responses:
+                '201':
+                    description: Successful response.
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                ChannelNotFound:
+                                    value:
+                                        code: 404
+                                        messages: Channel not found
+                    description: Could not locate Channel
+                '500':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                InternalServerError:
+                                    value:
+                                        code: 500
+                                        messages: Unable to process request
+                    description: Unable to process request
+            security:
+                -
+                    LoginRequired: []
+            operationId: create_message
+            summary: Create a Message
+            description: Creates a new instance of a Message.
+            x-openapi-router-controller: openapi_server.controllers.channel_controller
+    '/channels/{channelId}/messages/{messageId}':
+        summary: Path used to manage a single Message.
+        description: >-
+            The REST endpoint/path used to get, update, and delete single instances of an Message.  This path
+            contains GET, PUT, and DELETE operations used to perform the get, update, and delete tasks,
+            respectively.
+        get:
+            tags:
+                - Channel
+            parameters:
+                -
+                    style: simple
+                    explode: false
+                    name: channelId
+                    description: A unique identifier for a Message.
+                    schema:
+                        type: integer
+                    in: path
+                    required: true
+                -
+                    style: simple
+                    explode: false
+                    name: messageId
+                    schema:
+                        type: integer
+                    in: path
+                    required: true
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Message'
+                    description: Successful response - returns a single Message.
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                ChannelNotFound:
+                                    value:
+                                        code: 404
+                                        messages: Channel not found
+                                MessageNotFound:
+                                    value:
+                                        code: 404
+                                        messages: Message not found
+                    description: Eith the Channel or Message could not be found.
+                '500':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                InternalServerError:
+                                    value:
+                                        code: 500
+                                        messages: Unable to process request
+                    description: Unable to process request
+            security:
+                -
+                    LoginRequired: []
+            operationId: get_message
+            summary: Get a Message
+            description: Gets the details of a single instance of a Message.
+            x-openapi-router-controller: openapi_server.controllers.channel_controller
+        put:
+            requestBody:
+                description: Updated Message information.
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Message'
+                required: true
+            tags:
+                - Channel
+            parameters:
+                -
+                    style: simple
+                    explode: false
+                    name: channelId
+                    description: A unique identifier for a Message.
+                    schema:
+                        type: integer
+                    in: path
+                    required: true
+                -
+                    style: simple
+                    explode: false
+                    name: messageId
+                    schema:
+                        type: integer
+                    in: path
+                    required: true
+            responses:
+                '202':
+                    description: Successful response.
+                '500':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                              InternalServerError:
+                                   value:
+                                      code: 500
+                                      messages: Unable to process request
+                    description: Unable to process request
+            security:
+                -
+                    LoginRequired: []
+            operationId: update_message
+            summary: Update a Message
+            description: Updates an existing Message.
+            x-openapi-router-controller: openapi_server.controllers.channel_controller
+        delete:
+            tags:
+                - Channel
+            parameters:
+                -
+                    style: simple
+                    explode: false
+                    name: channelId
+                    description: A unique identifier for a Message.
+                    schema:
+                        type: integer
+                    in: path
+                    required: true
+                -
+                    style: simple
+                    explode: false
+                    name: messageId
+                    schema:
+                        type: integer
+                    in: path
+                    required: true
+            responses:
+                '204':
+                    description: Successful response.
+                '500':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                InternalServerError:
+                                    value:
+                                        code: 500
+                                        messages: Unable to process request
+
+                    description: Unable to process request
+            security:
+                -
+                    LoginRequired: []
+            operationId: delete_message
+            summary: Delete a Message
+            description: Deletes an existing Message.
+            x-openapi-router-controller: openapi_server.controllers.channel_controller
+    /login:
+        summary: Path used to login a User
+        post:
+            requestBody:
+                $ref: '#/components/requestBodies/inline_object'
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                username:
+                                    type: string
+                                password:
+                                    type: string
+                required: true
+            tags:
+                - Account
+            responses:
+                '204':
+                    headers:
+                        Set-Cookie:
+                            style: simple
+                            explode: false
+                            schema:
+                                type: string
+                            description: Returns a new session_id to be used for all future requests
+                    description: Login sucessful
+                '403':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                LoginFailed:
+                                    value:
+                                        code: 403
+                                        messages: Invalid Name and/or password
+                    description: Login Unsucessful
+                '500':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                InternalServerError:
+                                    value:
+                                        code: 500
+                                        messages: Unable to process request
+                    description: Unable to process request
+            security:
+                - {}
+            operationId: login
+            summary: Log in
+            description: Attempts to log a user in
+            x-openapi-router-controller: openapi_server.controllers.account_controller
+    /register:
+        summary: Path used to register a new User
+        post:
+            requestBody:
+                $ref: '#/components/requestBodies/inline_object'
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                username:
+                                    type: string
+                                password:
+                                    type: string
+                required: true
+            tags:
+                - Account
+            responses:
+                '204':
+                    description: Successfuly registered a new User
+                '400':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                InvalidNameOrPassword:
+                                    value:
+                                        code: 400
+                                        messages: Password insufficiently complex
+                                NameTooShort:
+                                    value:
+                                        code: 400
+                                        messages: Name too short
+                    description: Problem with username or password
+                '409':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                NameTaken:
+                                    value:
+                                        code: 409
+                                        messages: NameTaken
+                    description: Name is taken
+                '500':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                InternalServerError:
+                                    value:
+                                        code: 500
+                                        messages: Unable to process request
+                    description: Unable to process request
+            security:
+                - {}
+            operationId: register
+            summary: Registers User
+            description: Attempts to register a new user
+            x-openapi-router-controller: openapi_server.controllers.account_controller
+    /users:
+        summary: Path used to manage the list of users.
+        description: >-
+            The REST endpoint/path used to list and create zero or more User entities.  This path contains a
+            GET and POST operation to perform the list and create tasks, respectively.
+        get:
+            tags:
+                - User
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/User'
+                    description: Successful response - returns an array of User entities.
+                '500':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                InternalServerError:
+                                    value:
+                                        code: 500
+                                        messages: Unable to process request
+                    description: Unable to process request
+            security:
+                -
+                    LoginRequired: []
+            operationId: get_users
+            summary: List All users
+            description: Gets a list of all User entities.
+            x-openapi-router-controller: openapi_server.controllers.user_controller
+        post:
+            requestBody:
+                description: A new User to be created.
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/User'
+                required: true
+            tags:
+                - User
+            responses:
+                '201':
+                    description: Successful response.
+                '500':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                InternalServerError:
+                                    value:
+                                        code: 500
+                                        messages: Unable to process request
+                    description: Unable to process request
+            security:
+                - {}
+            operationId: create_user
+            summary: Create a User
+            description: Creates a new instance of a User.
+            x-openapi-router-controller: openapi_server.controllers.user_controller
+    '/users/{userId}':
+        summary: Path used to manage a single User.
+        description: >-
+            The REST endpoint/path used to get, update, and delete single instances of an User.  This path
+            contains GET, PUT, and DELETE operations used to perform the get, update, and delete tasks,
+            respectively.
+        get:
+            tags:
+                - User
+            parameters:
+                -
+                    style: simple
+                    explode: false
+                    name: userId
+                    description: A unique identifier for a User.
+                    schema:
+                        type: integer
+                    in: path
+                    required: true
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/User'
+                    description: Successful response - returns a single User.
+                '500':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                InternalServerError:
+                                    value:
+                                        code: 500
+                                        messages: Unable to process request
+                    description: Unable to process request
+            security:
+                -
+                    LoginRequired: []
+            operationId: get_user
+            summary: Get a User
+            description: Gets the details of a single instance of a User.
+            x-openapi-router-controller: openapi_server.controllers.user_controller
+        put:
+            requestBody:
+                description: Updated User information.
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/User'
+                required: true
+            tags:
+                - User
+            parameters:
+                -
+                    style: simple
+                    explode: false
+                    name: userId
+                    description: A unique identifier for a User.
+                    schema:
+                        type: integer
+                    in: path
+                    required: true
+            responses:
+                '202':
+                    description: Successful response.
+                '500':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                InternalServerError:
+                                    value:
+                                        code: 500
+                                        messages: Unable to process request
+                    description: Unable to process request
+            operationId: update_user
+            summary: Update a User
+            description: Updates an existing User.
+            x-openapi-router-controller: openapi_server.controllers.user_controller
+        delete:
+            tags:
+                - User
+            parameters:
+                -
+                    style: simple
+                    explode: false
+                    name: userId
+                    description: A unique identifier for a User.
+                    schema:
+                        type: integer
+                    in: path
+                    required: true
+            responses:
+                '204':
+                    description: Successful response.
+                '500':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                InternalServerError:
+                                    value:
+                                        code: 500
+                                        messages: Unable to process request
+                    description: Unable to process request
+            operationId: delete_user
+            summary: Delete a User
+            description: Deletes an existing User.
+            x-openapi-router-controller: openapi_server.controllers.user_controller
+components:
+    schemas:
+        Channel:
+            required:
+                - name
+                - type
+            type: object
+            properties:
+                id:
+                    type: integer
+                name:
+                    type: string
+                type:
+                    enum:
+                        - TEXT
+                        - VOICE
+                    type: string
+            example:
+                name: name
+                id: 0
+                type: TEXT
+        User:
+            required:
+                - id
+                - name
+            type: object
+            properties:
+                id:
+                    type: integer
+                name:
+                    type: string
+            example:
+                id: 0
+                name: Bob
+        Message:
+            required:
+                - content
+            type: object
+            properties:
+                id:
+                    type: integer
+                channel:
+                    type: integer
+                author:
+                    type: integer
+                content:
+                    type: string
+                timestamp:
+                    type: integer
+            example:
+                author: 102
+                channel: 110
+                id: 101
+                content: What time is the meeting
+                timestamp: 6
+        Error:
+            required:
+                - code
+                - messages
+            type: object
+            properties:
+                code:
+                    type: integer
+                messages:
+                    type: string
+        inline_object:
+            type: object
+            properties:
+                username:
+                    type: string
+                password:
+                    type: string
+    responses:
+        ChannelNotFound:
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/Error'
+                    examples:
+                        ChannelNotFound:
+                            value:
+                                code: 404
+                                messages: Channel not found
+            description: Could not locate Channel
+        InternalServerIssue:
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/Error'
+                    examples:
+                        ChannelNotFound:
+                            value:
+                                code: 500
+                                messages: Unable to process request
+            description: Unable to create user
+    requestBodies:
+        inline_object:
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/inline_object'
+            required: true
+    securitySchemes:
+        LoginRequired:
+            type: apiKey
+            name: session_id
+            in: cookie
+            x-apikeyInfoFunc: openapi_server.controllers.security_controller_.info_from_LoginRequired

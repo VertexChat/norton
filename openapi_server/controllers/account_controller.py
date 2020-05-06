@@ -24,7 +24,8 @@ def login(inline_object=None):
     """
 
     payload = connexion.request.get_json()
-    if all(filter(lambda k: k in payload, ['name', 'password'])):
+
+    if all(filter(lambda k: k in payload, ['username', 'password'])):
         user = db_models.User.query.filter_by(name=payload['username']).first()
 
         if bcrypt.checkpw(payload['password'].encode('utf8'), user.password.encode('utf8')):
@@ -44,6 +45,7 @@ def login(inline_object=None):
                 headers={'Set-Cookie': f'session_id={session_id}; Expires={datetime.datetime.fromtimestamp(expiry).strftime("%c")}'}
             )
         else:
+            print(payload)
             return ErrorResponse(401, 'Unauthorized')
 
 

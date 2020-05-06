@@ -15,5 +15,5 @@ class Config:
     SQLALCHEMY_ECHO = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    # Nomination System
+    # Notification System
     NOTIFICATION_SERVICE_AUTHKEY = b'7qH4vt@@rC*qLAVZegrRe@Nx'

@@ -153,6 +153,7 @@ def delete_channel(channel_id):
         else:
             with db.engine.connect() as con:
                 rs = con.execute(f"SELECT * FROM member where channel={ch.id}")
+                db.session.delete(ch)
 
                 for _, user_id in rs:
                     notifier = Client(('localhost', 6000), authkey=Config.NOTIFICATION_SERVICE_AUTHKEY)
